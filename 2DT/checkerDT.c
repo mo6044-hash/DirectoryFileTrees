@@ -37,6 +37,12 @@ boolean CheckerDT_Node_isValid(Node_T oNNode) {
                  Path_getPathname(oPPPath), Path_getPathname(oPNPath));
          return FALSE;
       }
+      
+      /* adding check that parent must be exactly 1 depth above child */
+      if (Path_getDepth(oPNPath) != Path_getDepth(oPPPath) + 1) {
+         fprintf(stderr, "parent depth %zu, while child depth %zu\n",
+         Path_getDepth(oPNPath), Path_getDepth(oPPPath));
+         return FALSE;
    }
 
    return TRUE;
@@ -97,7 +103,6 @@ boolean CheckerDT_isValid(boolean bIsInitialized, Node_T oNRoot,
          fprintf(stderr, "Not initialized, but root is not NULL\n");
          return FALSE;
       }
-      return TRUE;
    }
    /* adding check for when root is NULL but node count is not 0 */
    if (oNRoot == NULL && ulCount != 0) {
