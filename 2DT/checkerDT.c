@@ -102,7 +102,7 @@ boolean CheckerDT_isValid(boolean bIsInitialized, Node_T oNRoot,
       /* adding check for when not initialized but root is not NULL */
       if (oNRoot != NULL) {
          fprintf(stderr, "Not initialized, but root is not NULL\n");
-         return FALSE
+         return FALSE;
       }
    }
 
