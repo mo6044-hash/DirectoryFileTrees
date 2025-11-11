@@ -40,8 +40,7 @@ boolean CheckerDT_Node_isValid(Node_T oNNode) {
       
       /* adding check that parent must be exactly 1 depth above child */
       if (Path_getDepth(oPNPath) != Path_getDepth(oPPPath) + 1) {
-         fprintf(stderr, "parent depth %zu, while child depth %zu\n",
-         Path_getDepth(oPNPath), Path_getDepth(oPPPath));
+         fprintf(stderr, "parent depth should be exactly 1 less than child depth\n");
          return FALSE;
    }
 
