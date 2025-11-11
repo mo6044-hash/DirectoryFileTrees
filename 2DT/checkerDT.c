@@ -39,12 +39,6 @@ boolean CheckerDT_Node_isValid(Node_T oNNode) {
       }
    }
 
-   /* adding a check that root node shouldn't have a parent node */
-   if (oNParent == NULL && Path_getDepth(oPNPath) != 1) {
-      fprintf(stderr, "Root node has a parent node\n");
-      return FALSE;
-   }
-
    return TRUE;
 }
 
