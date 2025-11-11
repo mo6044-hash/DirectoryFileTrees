@@ -97,10 +97,17 @@ boolean CheckerDT_isValid(boolean bIsInitialized, Node_T oNRoot,
          fprintf(stderr, "Not initialized, but root is not NULL\n");
          return FALSE;
       }
+      return TRUE;
    }
    /* adding check for when root is NULL but node count is not 0 */
    if (oNRoot == NULL && ulCount != 0) {
       fprintf(stderr, "DT has no root but count is not 0\n");
+      return FALSE;
+   }
+
+   /* adding check for when root is NULL but node count is not 0 */
+   if (oNRoot != NULL && ulCount == 0) {
+      fprintf(stderr, "DT has root but count is 0\n");
       return FALSE;
    }
 
