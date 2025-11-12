@@ -12,12 +12,12 @@
 #include "nodeFT.h"
 
 /* helper function checking the parent-child relation invariants */
-static boolean checkerDT_Child_isValid(Node_T oNParent, Node_T oNChild,
+static boolean checkerFT_Child_isValid(Node_T oNParent, Node_T oNChild,
                                        size_t index, size_t totChildren) {
     Path_T oPPPath;
     Path_T oPNPath;
     Node_T oNOtherChild;
-    Node_T oPPrevChild;
+    Node_T oNPrevChild;
     size_t j;
     boolean prevIsFile;
     boolean currIsFile;
@@ -66,10 +66,10 @@ static boolean checkerDT_Child_isValid(Node_T oNParent, Node_T oNChild,
     }
   /* adding check for order */
     if(index > 0) {
-      oPPrevChild = NULL;
-      if(Node_getChild(oNParent, index-1, &oPPrevChild) == SUCCESS &&
-        oPPrevChild != NULL) {
-        prevIsFile = Node_isFile(oNPrev);
+      oNPrevChild = NULL;
+      if(Node_getChild(oNParent, index-1, &oNPrevChild) == SUCCESS &&
+        oNPrevChild != NULL) {
+        prevIsFile = Node_isFile(oNPrevChild);
         currIsFile = Node_isFile(oNChild);
 
         /* adding check for when directory comes before file*/
@@ -78,7 +78,7 @@ static boolean checkerDT_Child_isValid(Node_T oNParent, Node_T oNChild,
           return FALSE;
           
         }
-        else if(Path_comparePath(Node_getPath(oPPrevChild),Node_getPath(oNChild)) > 0) {
+        else if(Path_comparePath(Node_getPath(oNPrevChild),Node_getPath(oNChild)) > 0) {
           fprintf(stderr, "children names out of order\n");
           return FALSE;
         }
@@ -113,7 +113,7 @@ boolean CheckerFT_Node_isValid(Node_T oNNode) {
    /* Sample check: parent's path must be the longest possible
       proper prefix of the node's path */
    oNParent = Node_getParent(oNNode);
-   if(oNparent == NULL) {
+   if(oNParent == NULL) {
      if(Node_isFile(oNNode)) {
        fprintf(stderr, "root node is a file\n");
        return FALSE;
@@ -157,7 +157,7 @@ boolean CheckerFT_Node_isValid(Node_T oNNode) {
            return FALSE;
        }
 
-       if(!checkerDT_Child_isValid(oNNode, oNChild, ulIndex, ulNumChildren)) {
+       if(!checkerFT_Child_isValid(oNNode, oNChild, ulIndex, ulNumChildren)) {
            return FALSE;
        }     
    }
@@ -181,7 +181,7 @@ static boolean CheckerFT_treeCheck(Node_T oNNode) {
 
       /* Sample check on each node: node must be valid */
       /* If not, pass that failure back up immediately */
-      if(!CheckerDT_Node_isValid(oNNode))
+      if(!CheckerFT_Node_isValid(oNNode))
          return FALSE;
 
       /* Recur on every child of oNNode */
@@ -197,7 +197,7 @@ static boolean CheckerFT_treeCheck(Node_T oNNode) {
 
          /* if recurring down one subtree results in a failed check
             farther down, passes the failure back up immediately */
-         if(!CheckerDT_treeCheck(oNChild))
+         if(!CheckerFT_treeCheck(oNChild))
             return FALSE;
       }
    }
@@ -261,11 +261,11 @@ boolean CheckerFT_isValid(boolean bIsInitialized, Node_T oNRoot,
     }
 
     if(Node_isFile(oNRoot)) {
-      fprintf(sderr< "Root node is a file\n");
+      fprintf(sderr("Root node is a file\n");
       return FALSE;
     }
     
 
    /* Now checks invariants recursively at each node from the root. */
-   return CheckerDT_treeCheck(oNRoot);
+   return CheckerFT_treeCheck(oNRoot);
 }
