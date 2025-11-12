@@ -174,8 +174,8 @@ static void CountNodes(Node_T oNNode, size_t *pCount) {
   }
   (*pCount)++;
 
-  for(ulIndex = 0; ulIndex < Node_getNumChildren(oNNode); ulIndex++) {
-    if (Node_getChild(oNNode, ulIndex, &oNChild) == SUCCESS && oNChild != NULL) {
+  for(i = 0; i < Node_getNumChildren(oNNode); i++) {
+    if (Node_getChild(oNNode, i, &oNChild) == SUCCESS && oNChild != NULL) {
       CountNodes(oNChild, pCount);
     }
   }
@@ -183,7 +183,7 @@ static void CountNodes(Node_T oNNode, size_t *pCount) {
 /* see checkerDT.h for specification */
 boolean CheckerDT_isValid(boolean bIsInitialized, Node_T oNRoot,
                           size_t ulCount) {
-   size_t actualCount = 0
+   size_t actualCount = 0;
    
     /* Sample check on a top-level data structure invariant:
       if the DT is not initialized, its count should be 0. */
@@ -216,9 +216,7 @@ boolean CheckerDT_isValid(boolean bIsInitialized, Node_T oNRoot,
     /* verifying the no of nodes */
     CountNodes(oNRoot, &actualCount);
     if(actualCount != ulCount) {
-        fprintf(stderr, "ulCount not equal to actual number of nodes: 
-                expected (%lu), gotten (%lu), (unsigned long)ulCount,
-                (unsigned long) actualCount));
+        fprintf(stderr, "ulCount not equal to actual number of nodes\n");
         return FALSE;
     }
     
