@@ -65,7 +65,7 @@ boolean CheckerDT_Node_isValid(Node_T oNNode) {
    Path_T oPNPath;
    Path_T oPPPath;
    size_t ulNumChildren;
-   size_t i;
+   size_t ulIndex;
 
    /* Sample check: a NULL pointer is not a valid node */
    if(oNNode == NULL) {
@@ -102,7 +102,7 @@ boolean CheckerDT_Node_isValid(Node_T oNNode) {
 
    /* checking children conditions */
    ulNumChildren = Node_getNumChildren(oNNode);
-   for(i = 0; i < ulNumChildren; i++) {
+   for(ulIndex = 0; ulIndex < ulNumChildren; ulIndex++) {
        oNChild = NULL;
        int iStatus = Node_getChild(oNNode, ulIndex, &oNChild);
 
@@ -111,7 +111,7 @@ boolean CheckerDT_Node_isValid(Node_T oNNode) {
            return FALSE;
        }
 
-       if(!checkerDT_Child_isValid(oNNode, oNChild, i, ulNumChildren)) {
+       if(!checkerDT_Child_isValid(oNNode, oNChild, ulIndex, ulNumChildren)) {
            return FALSE;
        }
 
@@ -172,7 +172,7 @@ boolean CheckerDT_isValid(boolean bIsInitialized, Node_T oNRoot,
          fprintf(stderr, "Not initialized, but count is not 0\n");
          return FALSE;
       }
-      if(root != NULL) {
+      if(oNRoot != NULL) {
           fprintf(stderr, "Not initialized, but root is not NULL\n");
           return FALSE;
       }
