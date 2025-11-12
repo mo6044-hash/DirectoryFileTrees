@@ -507,7 +507,7 @@ int FT_stat(const char *pcPath, boolean *pbIsFile, size_t *pulSize) {
   }
   *pbIsFile = Node_isFile(oNFound);
   if(*pbIsFile) {
-    *pulSize = Node_getFileLength(oNFound));
+    *pulSize = Node_getFileLength(oNFound);
   }
   else {
     *pulSize = 0;
