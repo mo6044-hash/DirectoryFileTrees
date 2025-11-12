@@ -423,6 +423,31 @@ int FT_rmDir(const char *pcPath) {
    return SUCCESS;
 }
 
+int FT_rmFile(const char *pcPath) {
+   int iStatus;
+   Node_T oNFound = NULL;
+
+   assert(pcPath != NULL);
+   assert(CheckerFT_isValid(bIsInitialized, oNRoot, ulCount)); 
+
+   iStatus = FT_findNode(pcPath, &oNFound);
+
+   if(iStatus != SUCCESS)
+       return iStatus;
+
+   if(!Node_isFile(oNFound)){
+     return NOT_A_FILE;
+   }
+
+   ulCount -= Node_free(oNFound);
+   if(ulCount == 0) 
+      oNRoot = NULL;
+
+   assert(CheckerFT_isValid(bIsInitialized, oNRoot, ulCount));
+   return SUCCESS;
+}
+  
+
 
 int FT_init(void) {
    assert(CheckerFT_isValid(bIsInitialized, oNRoot, ulCount)); 
@@ -455,6 +480,36 @@ int FT_destroy(void) {
    return SUCCESS;
 }
 
+void *FT_getFileContents(const char *pcPath) {
+  Node_T oNFound = NULL;
+  int iStatus = FT_findNode(pcPath, &oNFound);
+  if(iStatus != SUCCESS || !Node_isFile(oNFound)) {
+    return NULL;
+  }
+  return Node_getFileContents(oNFound);
+}
+
+void *FT_replaceFileContents(const char *pcPath, void *pvNewContents,
+                             size_t ulNewLength) {
+  Node_T oNFound = NULL;
+  int iStatus = FT_findNode(pcPath, &oNFound);
+  if(iStatus != SUCCESS || !Node_isFile(oNFound)) {
+    return NULL;
+  }
+  return Node_replaceFileContents(oNFound, pvNewContents, ulNewLength);
+}
+
+int FT_stat(const char *pcPath, boolean *pbIsFile, size_t *pulSize) {
+  Node_T oNFound = NULL;
+  int iStatus = FT_findNode(pcPath, &oNFound);
+  if(iStatus != SUCCESS) {
+    return iStatus;
+  }
+  *pbIsFile = Node_isFile(oNFound);
+  if(*pbIsFile) *pulSize = Node_getLength(oNFound) {
+    return SUCCESS;
+  }
+}
 
 /* --------------------------------------------------------------------
 
@@ -467,7 +522,7 @@ int FT_destroy(void) {
   inserting each payload to DynArray_T d beginning at index i.
   Returns the next unused index in d after the insertion(s).
 */
-static size_t DT_preOrderTraversal(Node_T n, DynArray_T d, size_t i) {
+static size_t FT_preOrderTraversal(Node_T n, DynArray_T d, size_t i) {
    size_t c;
 
    assert(d != NULL);
@@ -491,7 +546,7 @@ static size_t DT_preOrderTraversal(Node_T n, DynArray_T d, size_t i) {
   to accumulate a string length, rather than returning the length of
   oNNode's path, and also always adds one addition byte to the sum.
 */
-static void DT_strlenAccumulate(Node_T oNNode, size_t *pulAcc) {
+static void FT_strlenAccumulate(Node_T oNNode, size_t *pulAcc) {
    assert(pulAcc != NULL);
 
    if(oNNode != NULL)
@@ -503,7 +558,7 @@ static void DT_strlenAccumulate(Node_T oNNode, size_t *pulAcc) {
   order, appending oNNode's path onto pcAcc, and also always adds one
   newline at the end of the concatenated string.
 */
-static void DT_strcatAccumulate(Node_T oNNode, char *pcAcc) {
+static void FT_strcatAccumulate(Node_T oNNode, char *pcAcc) {
    assert(pcAcc != NULL);
 
    if(oNNode != NULL) {
@@ -513,7 +568,7 @@ static void DT_strcatAccumulate(Node_T oNNode, char *pcAcc) {
 }
 /*--------------------------------------------------------------------*/
 
-char *DT_toString(void) {
+char *FT_toString(void) {
    DynArray_T nodes;
    size_t totalStrlen = 1;
    char *result = NULL;
