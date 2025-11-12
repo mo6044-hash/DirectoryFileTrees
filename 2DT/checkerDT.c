@@ -16,6 +16,7 @@ static boolean checkerDT_Child_isValid(Node_T oNParent, Node_T oNChild,
     Path_T oPPPath;
     Path_T oPNPath;
     Node_T oNOtherChild;
+    Node_T oPPrevChild;
     size_t j;
     
     oPNPath = Node_getPath(oNChild);
@@ -58,7 +59,18 @@ static boolean checkerDT_Child_isValid(Node_T oNParent, Node_T oNChild,
                 return FALSE;
             }
         }
+      
     }
+    if(index > 0) {
+      oPPrevChild = NULL;
+      if(Node_getChild(oNParent, index-1, &oPPrevChild) == SUCCESS &&
+        oPPrevChild != NULL) {
+        if(Path_comparePath(Node_getPath(oPPrevChild),Node_getPath(oNChild)) > 0) {
+          fprintf(stderr, "children names out of order\n");
+        }
+      }
+    }
+  
 
     return TRUE;
 }
