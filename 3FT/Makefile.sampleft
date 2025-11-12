@@ -18,7 +18,7 @@ clobber: clean
 ft: ft.o nodeFT.o checkerFT.o path.o dynarray.o ft_client.o
 	$(CC) ft.o nodeFT.o checkerFT.o path.o dynarray.o ft_client.o -o ft
 
-ft.o: ft.c nodeFT.h checkerFT.h path.h ft.h a4def.h
+ft.o: ft.c nodeFT.h checkerFT.h path.h ft.h a4def.h dynarray.h
 	$(CC) -c ft.c
 
 nodeFT.o: nodeFT.c nodeFT.h path.h a4def.h
