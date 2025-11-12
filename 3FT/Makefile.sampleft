@@ -7,16 +7,31 @@
 
 CC=gcc217
 
-all: sampleft
-
+all: ft
+	
 clean:
-	rm -f sampleft
+	rm -f ft
 
 clobber: clean
 	rm -f ft_client.o *~
 
-sampleft: sampleft.o ft_client.o
-	$(CC) sampleft.o ft_client.o -o sampleft
+ft: ft.o nodeFT.o checkerFT.o path.o dynarray.o ft_client.o
+	$(CC) nodeFT.o checkerFT.o path.o dynarray.o ft_client.o -o ft
+
+ft.o: ft.c nodeFT.h checkerFT.h path.h ft.h a4def.h
+	$(CC) -c ft.c
+
+nodeFT.o: nodeFT.c nodeFT.h path.h a4def.h
+	$(CC) -c nodeFT.c
+
+checkerFT.o: checkerFT.c dynarray.h checkerFT.h nodeFT.h path.h a4def.h
+	$(CC) -c checkerFT.c
+
+path.o: path.c dynarray.h path.h a4def.h
+	$(CC) -c path.c
+
+dynarray.o: dynarray.c dynarray.h
+	$(CC) -c dynarray.c
 
 ft_client.o: ft_client.c ft.h a4def.h
 	$(CC) -c ft_client.c
