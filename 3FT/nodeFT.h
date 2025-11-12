@@ -92,7 +92,7 @@ int Node_compare(Node_T oNFirst, Node_T oNSecond);
 char *Node_toString(Node_T oNNode);
 
 /* Returns TRUE if node oNNode represents a file and FALSE if directory*/
-enum NodeType Node_isFile(Node_T oNNode);
+boolean Node_isFile(Node_T oNNode);
 
 /* Returns pointer to the stored contents of the file oNNode 
    Returns NULL if directory 
