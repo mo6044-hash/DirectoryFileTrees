@@ -12,7 +12,7 @@
 #include "dynarray.h"
 #include "path.h"
 #include "nodeFT.h"
-/* #include "checkerFT.h" */
+#include "checkerFT.h" 
 #include "ft.h"
 
 
@@ -182,7 +182,7 @@ int FT_insertDir(const char *pcPath) {
    size_t ulNewNodes = 0;
 
    assert(pcPath != NULL);
-   /* assert(CheckerDT_isValid(bIsInitialized, oNRoot, ulCount)); */
+   assert(CheckerFT_isValid(bIsInitialized, oNRoot, ulCount)); 
 
    /* validate pcPath and generate a Path_T for it */
    if(!bIsInitialized)
@@ -236,9 +236,7 @@ int FT_insertDir(const char *pcPath) {
       iStatus = Path_prefix(oPPath, ulIndex, &oPPrefix);
       if(iStatus != SUCCESS) {
          Path_free(oPPath);
-         /* if(oNFirstNew != NULL)
-            (void) Node_free(oNFirstNew);
-         assert(CheckerDT_isValid(bIsInitialized, oNRoot, ulCount)); */
+         assert(CheckerFT_isValid(bIsInitialized, oNRoot, ulCount)); 
          return iStatus;
       }
 
@@ -246,11 +244,8 @@ int FT_insertDir(const char *pcPath) {
       iStatus = Node_new(oPPrefix, oNCurr, FALSE, NULL, 0, &oNNewNode);
       Path_free(oPPrefix);
       if(iStatus != SUCCESS) {
-         Path_free(oPPath); 
-         /*Path_free(oPPrefix); 
-         if(oNFirstNew != NULL)
-            (void) Node_free(oNFirstNew);
-         assert(CheckerDT_isValid(bIsInitialized, oNRoot, ulCount)); */
+         Path_free(oPPath);          
+         assert(CheckerFT_isValid(bIsInitialized, oNRoot, ulCount)); 
          return iStatus;
       }
 
@@ -258,8 +253,6 @@ int FT_insertDir(const char *pcPath) {
       /* Path_free(oPPrefix); */
       oNCurr = oNNewNode;
       ulNewNodes++;
-      /*if(oNFirstNew == NULL)
-         oNFirstNew = oNCurr; */
       if (oNRoot == NULL) {
         oNRoot = oNCurr; 
       }
@@ -272,7 +265,7 @@ int FT_insertDir(const char *pcPath) {
       oNRoot = oNFirstNew; */
    ulCount += ulNewNodes;
 
-   /* assert(CheckerDT_isValid(bIsInitialized, oNRoot, ulCount)); */
+   assert(CheckerFT_isValid(bIsInitialized, oNRoot, ulCount)); 
    return SUCCESS;
 }
 
@@ -284,7 +277,7 @@ int FT_insertFile(const char *pcPath, void *pvContents, size_t ulLength) {
    size_t ulNewNodes = 0;
 
    assert(pcPath != NULL);
-   /*assert(CheckerDT_isValid(bIsInitialized, oNRoot, ulCount)); */
+   assert(CheckerFT_isValid(bIsInitialized, oNRoot, ulCount)); 
 
    /* validate pcPath and generate a Path_T for it */
    if(!bIsInitialized)
@@ -345,8 +338,8 @@ int FT_insertFile(const char *pcPath, void *pvContents, size_t ulLength) {
       if(iStatus != SUCCESS) {
          Path_free(oPPath);
          /* if(oNFirstNew != NULL)
-            (void) Node_free(oNFirstNew);
-         assert(CheckerDT_isValid(bIsInitialized, oNRoot, ulCount)); */
+            (void) Node_free(oNFirstNew); */
+         assert(CheckerFT_isValid(bIsInitialized, oNRoot, ulCount)); 
          return iStatus;
       }
 
@@ -363,8 +356,8 @@ int FT_insertFile(const char *pcPath, void *pvContents, size_t ulLength) {
       if(iStatus != SUCCESS) {
          Path_free(oPPath);
          /* if(oNFirstNew != NULL)
-            (void) Node_free(oNFirstNew);
-         assert(CheckerDT_isValid(bIsInitialized, oNRoot, ulCount)); */
+            (void) Node_free(oNFirstNew); */
+         assert(CheckerFT_isValid(bIsInitialized, oNRoot, ulCount)); 
          return iStatus;
       }
 
@@ -382,7 +375,7 @@ int FT_insertFile(const char *pcPath, void *pvContents, size_t ulLength) {
       oNRoot = oNFirstNew; */
    ulCount += ulNewNodes;
 
-  /* assert(CheckerDT_isValid(bIsInitialized, oNRoot, ulCount)); */
+  assert(CheckerFT_isValid(bIsInitialized, oNRoot, ulCount)); 
    return SUCCESS;
 }
 
@@ -419,7 +412,7 @@ int FT_rmDir(const char *pcPath) {
    Node_T oNFound = NULL;
 
    assert(pcPath != NULL);
-   /* assert(CheckerDT_isValid(bIsInitialized, oNRoot, ulCount)); */
+   assert(CheckerFT_isValid(bIsInitialized, oNRoot, ulCount)); 
 
    iStatus = DT_findNode(pcPath, &oNFound);
 
@@ -430,13 +423,13 @@ int FT_rmDir(const char *pcPath) {
    if(ulCount == 0)
       oNRoot = NULL;
 
-   assert(CheckerDT_isValid(bIsInitialized, oNRoot, ulCount));
+   assert(CheckerFT_isValid(bIsInitialized, oNRoot, ulCount));
    return SUCCESS;
 }
 
 
 int FT_init(void) {
-   /* assert(CheckerDT_isValid(bIsInitialized, oNRoot, ulCount)); */
+   assert(CheckerFT_isValid(bIsInitialized, oNRoot, ulCount)); 
 
    if(bIsInitialized)
       return INITIALIZATION_ERROR;
@@ -445,12 +438,12 @@ int FT_init(void) {
    oNRoot = NULL;
    ulCount = 0;
 
-   /* assert(CheckerDT_isValid(bIsInitialized, oNRoot, ulCount)); */
+   assert(CheckerFT_isValid(bIsInitialized, oNRoot, ulCount)); 
    return SUCCESS;
 }
 
 int FT_destroy(void) {
-   /* assert(CheckerDT_isValid(bIsInitialized, oNRoot, ulCount)); */
+   assert(CheckerFT_isValid(bIsInitialized, oNRoot, ulCount)); 
 
    if(!bIsInitialized)
       return INITIALIZATION_ERROR;
@@ -462,7 +455,7 @@ int FT_destroy(void) {
 
    bIsInitialized = FALSE;
 
-   /* assert(CheckerDT_isValid(bIsInitialized, oNRoot, ulCount)); */
+   assert(CheckerFT_isValid(bIsInitialized, oNRoot, ulCount)); 
    return SUCCESS;
 }
 
