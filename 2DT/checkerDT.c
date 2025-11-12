@@ -27,6 +27,11 @@ static boolean checkerDT_Child_isValid(Node_T oNParent, Node_T oNChild,
                 (unsigned long) index, Path_getPathname(oPPPath));
         return FALSE;
     }
+
+    /* adding check for if child's pointer matches the parent address */
+    if(Node_getParent(oNChild) !+ oNParent) {
+      fprintf(stderr, "Child's parent pointer doesn't match parent\n");
+    }
     
     
     if(oPPPath == NULL || oPNPath == NULL) {
@@ -84,8 +89,13 @@ boolean CheckerDT_Node_isValid(Node_T oNNode) {
    /* Sample check: parent's path must be the longest possible
       proper prefix of the node's path */
    oNParent = Node_getParent(oNNode);
+   oPNPath = Node_getPath(oNNode);
+   if(oNParent == NULL && Path_getDepth(oPNPath)){
+     fprintf(stderr, "Depth of root node not 1\n");
+     return FALSE;
+   }
    if(oNParent != NULL) {
-       oPNPath = Node_getPath(oNNode);
+       
        oPPPath = Node_getPath(oNParent);
 
        if(oPPPath == NULL || oPNPath == NULL) {
