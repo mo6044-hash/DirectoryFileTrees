@@ -346,7 +346,7 @@ int FT_insertFile(const char *pcPath, void *pvContents, size_t ulLength) {
      else {
        /* insert the new node for this level */
        iStatus = Node_new(oPPrefix, oNCurr, TRUE, pvContents, ulLength,
-                           &oNNewNode));
+                           &oNNewNode);
       }
       Path_free(oPPrefix);
       if(iStatus != SUCCESS) {
@@ -410,7 +410,7 @@ int FT_rmDir(const char *pcPath) {
    assert(pcPath != NULL);
    assert(CheckerFT_isValid(bIsInitialized, oNRoot, ulCount)); 
 
-   iStatus = DT_findNode(pcPath, &oNFound);
+   iStatus = FT_findNode(pcPath, &oNFound);
 
    if(iStatus != SUCCESS)
        return iStatus;
