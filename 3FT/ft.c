@@ -84,7 +84,7 @@ static int FT_traversePath(Path_T oPPath, Node_T *poNFurthest) {
   
    for(i = 2; i <= ulDepth; i++) {
       /* if a file it has no children */
-      if(Node_siFile(oNCurr)) {
+      if(Node_isFile(oNCurr)) {
         *poNFurthest = oNCurr;
         return NOT_A_DIRECTORY;
       }
