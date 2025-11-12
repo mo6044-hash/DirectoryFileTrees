@@ -71,7 +71,6 @@ boolean CheckerDT_Node_isValid(Node_T oNNode) {
    Path_T oPPPath;
    size_t ulNumChildren;
    size_t ulIndex;
-   int iStatus;
 
    /* Sample check: a NULL pointer is not a valid node */
    if(oNNode == NULL) {
@@ -110,9 +109,8 @@ boolean CheckerDT_Node_isValid(Node_T oNNode) {
    ulNumChildren = Node_getNumChildren(oNNode);
    for(ulIndex = 0; ulIndex < ulNumChildren; ulIndex++) {
        oNChild = NULL;
-       iStatus = Node_getChild(oNNode, ulIndex, &oNChild);
 
-       if(iStatus != SUCCESS) {
+       if(Node_getChild(oNNode, ulIndex, &oNChild) != SUCCESS) {
            fprintf(stderr, "getNumChildren claims more children than getChild returns\n");
            return FALSE;
        }
@@ -166,6 +164,22 @@ static boolean CheckerDT_treeCheck(Node_T oNNode) {
    return TRUE;
 }
 
+/* keep track of nodes in DT */
+static void CountNodes(Node_T oNNode, size_t *pCount) {
+  size_t i;
+  Node_T oNChild = NULL;
+
+  if(oNNode == NULL) {
+    return;
+  }
+  (*pCount)++;
+
+  for(ulIndex = 0; ulIndex < Node_getNumChildren(oNNode); ulIndex++) {
+    if (Node_getChild(oNNode, ulIndex, &oNChild) == SUCCESS && oNChild != NULL) {
+      CountNodes(oNChild, pCount);
+    }
+  }
+}
 /* see checkerDT.h for specification */
 boolean CheckerDT_isValid(boolean bIsInitialized, Node_T oNRoot,
                           size_t ulCount) {
