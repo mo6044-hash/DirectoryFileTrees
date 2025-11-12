@@ -227,7 +227,7 @@ int FT_insertDir(const char *pcPath) {
       Node_T oNNewNode = NULL;
 
       /* parent cannot be a file */
-      if(oNCurr != NULL && Node_isFile(oNCurr) {
+      if(oNCurr != NULL && Node_isFile(oNCurr)) {
         Path_free(oPPath);
         return NOT_A_DIRECTORY;
       }
@@ -253,16 +253,12 @@ int FT_insertDir(const char *pcPath) {
       /* Path_free(oPPrefix); */
       oNCurr = oNNewNode;
       ulNewNodes++;
-      if (oNRoot == NULL) {
-        oNRoot = oNCurr; 
-      }
       ulIndex++;
    }
-
    Path_free(oPPath);
-   /* update DT state variables to reflect insertion 
-   if(oNRoot == NULL)
-      oNRoot = oNFirstNew; */
+   if (oNRoot == NULL) {
+     oNRoot = oNCurr; 
+   }
    ulCount += ulNewNodes;
 
    assert(CheckerFT_isValid(bIsInitialized, oNRoot, ulCount)); 
