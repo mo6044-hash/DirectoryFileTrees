@@ -506,9 +506,13 @@ int FT_stat(const char *pcPath, boolean *pbIsFile, size_t *pulSize) {
     return iStatus;
   }
   *pbIsFile = Node_isFile(oNFound);
-  if((*pbIsFile) *pulSize = Node_getFileLength(oNFound)) {
-    return SUCCESS;
+  if((*pbIsFile) {
+    *pulSize = Node_getFileLength(oNFound));
   }
+  else {
+    *pulSize = 0;
+  }
+  return SUCCESS;
 }
 
 /* --------------------------------------------------------------------
@@ -577,7 +581,7 @@ char *FT_toString(void) {
       return NULL;
 
    nodes = DynArray_new(ulCount);
-   (void) DT_preOrderTraversal(oNRoot, nodes, 0);
+   (void) FT_preOrderTraversal(oNRoot, nodes, 0);
 
    DynArray_map(nodes, (void (*)(void *, void*)) FT_strlenAccumulate,
                 (void*) &totalStrlen);
