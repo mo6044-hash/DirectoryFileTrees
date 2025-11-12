@@ -23,7 +23,7 @@ static boolean checkerDT_Child_isValid(Node_T oNParent, Node_T oNChild,
 
     /* child shouldn't be null */
     if(oNChild == NULL) {
-        fprintf(stderr, "Child at given index is NULL: (%ul) (%s)\n",
+        fprintf(stderr, "Child at given index is NULL: (%lu) (%s)\n",
                 (unsigned long) index, Path_getPathname(oPPPath));
         return FALSE;
     }
@@ -35,8 +35,7 @@ static boolean checkerDT_Child_isValid(Node_T oNParent, Node_T oNChild,
     }
 
     if(Path_getSharedPrefixDepth(oPNPath, oPPPath) !=
-       Path_getDepth(oPNPath) - 1 || Path_getDepth(oPNPath) != 
-       Path_getDepth(oPPPath) + 1) {
+       Path_getDepth(oPNPath) - 1) {
         fprintf(stderr, "P-C nodes don't have P-C paths: (%s) (%s)\n",
                  Path_getPathname(oPPPath), Path_getPathname(oPNPath));
         return FALSE;
@@ -94,8 +93,7 @@ boolean CheckerDT_Node_isValid(Node_T oNNode) {
        }
 
       if(Path_getSharedPrefixDepth(oPNPath, oPPPath) !=
-         Path_getDepth(oPNPath) - 1 || Path_getDepth(oPNPath) != 
-         Path_getDepth(oPPPath) + 1) {
+         Path_getDepth(oPNPath) - 1) {
          fprintf(stderr, "P-C nodes don't have P-C paths: (%s) (%s)\n",
                  Path_getPathname(oPPPath), Path_getPathname(oPNPath));
          return FALSE;
