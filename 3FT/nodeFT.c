@@ -71,7 +71,8 @@ static int Node_compareString(const Node_T oNFirst,
                  or oNParent is NULL but oPPath is not of depth 1
   * ALREADY_IN_TREE if oNParent already has a child with this path
 */
-int Node_new(Path_T oPPath, Node_T oNParent, Node_T *poNResult, void *pvContents, size_t ulLength, boolean bIsFile) {
+int Node_new(Path_T oPPath, Node_T oNParent, boolean bIsFile, void *pvContents, 
+             size_t ulLength, Node_T *poNResult) {
    struct node *psNew;
    Path_T oPParentPath = NULL;
    Path_T oPNewPath = NULL;
