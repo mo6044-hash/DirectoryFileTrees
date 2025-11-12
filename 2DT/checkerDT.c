@@ -67,6 +67,7 @@ static boolean checkerDT_Child_isValid(Node_T oNParent, Node_T oNChild,
         oPPrevChild != NULL) {
         if(Path_comparePath(Node_getPath(oPPrevChild),Node_getPath(oNChild)) > 0) {
           fprintf(stderr, "children names out of order\n");
+          return FALSE;
         }
       }
     }
