@@ -14,9 +14,6 @@
 /* A Node_T is a node in a File Tree(directory or file) */
 typedef struct node *Node_T;
 
-/* to distinguish between directory and file nodes */
-enum NodeType {FT_DIR, FT_FILE};
-
 /*
   Creates a new node in the File Tree, with path oPPath,parent oNParent. 
   and the node type. 
