@@ -8,7 +8,7 @@
 #include <string.h>
 #include "dynarray.h"
 #include "nodeFT.h"
-/* #include "checkerFT.h" */
+#include "checkerFT.h" 
 
 /* A node in a DT */
 struct node {
@@ -81,7 +81,7 @@ int Node_new(Path_T oPPath, Node_T oNParent, Node_T *poNResult, void *pvContents
 
    assert(oPPath != NULL);
    assert(poNResult != NULL);
-   /* assert(oNParent == NULL || CheckerDT_Node_isValid(oNParent)); */
+   assert(oNParent == NULL || CheckerFT_Node_isValid(oNParent)); 
 
    /* allocate space for a new node */
    psNew = malloc(sizeof(struct node));
@@ -199,8 +199,8 @@ int Node_new(Path_T oPPath, Node_T oNParent, Node_T *poNResult, void *pvContents
    
    *poNResult = psNew;
 
-   /* assert(oNParent == NULL || CheckerDT_Node_isValid(oNParent));
-   assert(CheckerDT_Node_isValid(*poNResult)); */
+   assert(oNParent == NULL || CheckerFT_Node_isValid(oNParent));
+   assert(CheckerFT_Node_isValid(*poNResult)); 
 
    return SUCCESS;
 }
@@ -211,7 +211,7 @@ size_t Node_free(Node_T oNNode) {
    size_t ulCount = 0;
 
    assert(oNNode != NULL);
-   /* assert(CheckerDT_Node_isValid(oNNode)); */
+   assert(CheckerFT_Node_isValid(oNNode)); 
 
    /* remove from parent's list */
    if(oNNode->oNParent != NULL && !oNNode->oNParent->bIsFile) {
@@ -351,6 +351,7 @@ void *Node_replaceFileContents(Node_T oNNode, const char *pvNewContents,
                               size_t ulNewLength) {
    void *pvOldContents;
    assert(oNNode != NULL);
+   assert(CheckerFT_Node_isValid(oNNode));
 
    if(!oNNode->bIsFile) {
       return NULL;
@@ -373,6 +374,7 @@ void *Node_replaceFileContents(Node_T oNNode, const char *pvNewContents,
       oNNode->pvContents = NULL;
    }
    oNNode->ulLength = ulNewLength;
+   assert(CheckerFT_Node_isValid(oNNode));
 
    return pvOldContents;
 }
