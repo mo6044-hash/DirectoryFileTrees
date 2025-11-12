@@ -29,7 +29,7 @@ static boolean checkerDT_Child_isValid(Node_T oNParent, Node_T oNChild,
     }
 
     /* adding check for if child's pointer matches the parent address */
-    if(Node_getParent(oNChild) !+ oNParent) {
+    if(Node_getParent(oNChild) != oNParent) {
       fprintf(stderr, "Child's parent pointer doesn't match parent\n");
     }
     
