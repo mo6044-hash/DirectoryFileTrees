@@ -1,22 +1,26 @@
 /*--------------------------------------------------------------------*/
-/* nodeDT.h                                                           */
+/* nodeFT.h                                                           */
 /* Author: Christopher Moretti                                        */
 /*--------------------------------------------------------------------*/
 
-#ifndef NODE_INCLUDED
-#define NODE_INCLUDED
+#ifndef NODEFT_INCLUDED
+#define NODEFT_INCLUDED
 
 #include <stddef.h>
 #include "a4def.h"
 #include "path.h"
 
 
-/* A Node_T is a node in a Directory Tree */
+/* A Node_T is a node in a File Tree(directory or file) */
 typedef struct node *Node_T;
 
+/* to distinguish between directory and file nodes */
+enum NodeType {FT_DIR, FT_FILE};
+
 /*
-  Creates a new node in the Directory Tree, with path oPPath and
-  parent oNParent. Returns an int SUCCESS status and sets *poNResult
+  Creates a new node in the File Tree, with path oPPath,parent oNParent. 
+  and the node type. 
+  Returns an int SUCCESS status and sets *poNResult
   to be the new node if successful. Otherwise, sets *poNResult to NULL
   and returns status:
   * MEMORY_ERROR if memory could not be allocated to complete request
@@ -32,6 +36,7 @@ int Node_new(Path_T oPPath, Node_T oNParent, Node_T *poNResult);
   Destroys and frees all memory allocated for the subtree rooted at
   oNNode, i.e., deletes this node and all its descendents. Returns the
   number of nodes deleted.
+  for file nodes, frees the contents of the nodes and then the node itself.
 */
 size_t Node_free(Node_T oNNode);
 
@@ -39,6 +44,7 @@ size_t Node_free(Node_T oNNode);
 Path_T Node_getPath(Node_T oNNode);
 
 /*
+  (just for directory nodes)
   Returns TRUE if oNParent has a child with path oPPath. Returns
   FALSE if it does not.
 
@@ -50,10 +56,14 @@ Path_T Node_getPath(Node_T oNNode);
 boolean Node_hasChild(Node_T oNParent, Path_T oPPath,
                          size_t *pulChildID);
 
-/* Returns the number of children that oNParent has. */
+/* 
+(just for directory nodes)
+Returns the number of children that oNParent has. 
+*/
 size_t Node_getNumChildren(Node_T oNParent);
 
 /*
+  (just for directory nodes)
   Returns an int SUCCESS status and sets *poNResult to be the child
   node of oNParent with identifier ulChildID, if one exists.
   Otherwise, sets *poNResult to NULL and returns status:
@@ -84,4 +94,25 @@ int Node_compare(Node_T oNFirst, Node_T oNSecond);
 */
 char *Node_toString(Node_T oNNode);
 
-#endif
+/* Returns TRUE if node oNNode represents a file and FALSE if directory*/
+enum NodeType Node_isFile(Node_T oNNode);
+
+/* Returns pointer to the stored contents of the file oNNode 
+   Returns NULL if directory 
+*/
+void *Node_getFileContents(Node_T oNNode);
+
+/* Returns the byte length of the file oNNode's content
+   Return 0 for directories 
+*/
+size_t Node_getFileLength(Node_T oNNode);
+
+/*
+  Replaces current contents of the file node oNNode with pvNewContents
+  of size ulNewLength. Returns a pointer to the old contents if successful.
+  otherwise returns NULL if direcotry or if there's an allocation error.
+*/
+void *Node_replaceFileContents(Node_T oNNode, const char *pvNewContents,
+                             size_t ulNewLength);
+
+#endif /* NODEFT_INCLUDED */
