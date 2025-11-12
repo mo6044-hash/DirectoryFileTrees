@@ -261,7 +261,7 @@ boolean CheckerFT_isValid(boolean bIsInitialized, Node_T oNRoot,
     }
 
     if(Node_isFile(oNRoot)) {
-      fprintf(sderr("Root node is a file\n");
+      fprintf(stderr,"Root node is a file\n");
       return FALSE;
     }
     
