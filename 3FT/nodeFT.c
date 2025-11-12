@@ -22,6 +22,7 @@ struct node {
    boolean bIsFile;
    /* file node contents and their length (only for files)*/
    void *pvContents;
+   /* size of file cotents */
    size_t ulLength;
 
 };
