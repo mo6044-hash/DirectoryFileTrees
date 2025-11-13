@@ -282,6 +282,7 @@ boolean Node_hasChild(Node_T oNParent, Path_T oPPath,
    assert(pulChildID != NULL);
 
    if(oNParent->bIsFile) {
+      *pulChildID = 0;
       return FALSE;
    }
 
