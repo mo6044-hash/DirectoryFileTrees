@@ -19,8 +19,8 @@ static boolean checkerFT_Child_isValid(Node_T oNParent, Node_T oNChild,
     Node_T oNOtherChild;
     Node_T oNPrevChild;
     size_t j;
-    boolean prevIsFile;
-    boolean currIsFile; 
+    /* boolean prevIsFile;
+    boolean currIsFile; */
     
     oPNPath = Node_getPath(oNChild);
     oPPPath = Node_getPath(oNParent);
@@ -67,10 +67,10 @@ static boolean checkerFT_Child_isValid(Node_T oNParent, Node_T oNChild,
   /* adding check for order */
     if(index > 0) {
       oNPrevChild = NULL;
-      if(Node_getChild(oNParent, index-1, &oNPrevChild) == SUCCESS &&
+      /*if(Node_getChild(oNParent, index-1, &oNPrevChild) == SUCCESS &&
         oNPrevChild != NULL) {
         prevIsFile = Node_isFile(oNPrevChild);
-        currIsFile = Node_isFile(oNChild);
+        currIsFile = Node_isFile(oNChild); */
 
         /* adding check for when directory comes before file */
         if(!prevIsFile && currIsFile) {
