@@ -173,7 +173,8 @@ int Node_new(Path_T oPPath, Node_T oNParent, boolean bIsFile, void *pvContents,
          free(psNew);
          *poNResult = NULL;
          return ALREADY_IN_TREE;
-      }
+      } 
+      
 
       /* Link into parent's children list */
       psNew->oNParent = oNParent;   
