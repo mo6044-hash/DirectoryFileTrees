@@ -380,6 +380,7 @@ size_t Node_getFileLength(Node_T oNNode) {
 void *Node_replaceFileContents(Node_T oNNode, const char *pvNewContents, 
                               size_t ulNewLength) {
    void *pvOldContents;
+   void *pvNew;
    assert(oNNode != NULL);
    assert(CheckerFT_Node_isValid(oNNode));
 
@@ -390,18 +391,21 @@ void *Node_replaceFileContents(Node_T oNNode, const char *pvNewContents,
    /* store old contents to return later */
    pvOldContents = oNNode->pvContents;
 
+   if(ulNewLength == 0) {
+      oNNode->pvContents = NULL;
+      free(pvOldContents);
+   }
+
    /* replace with new contents */
-   if(ulNewLength > 0) {
-      oNNode->pvContents = malloc(ulNewLength);
-      if(!oNNode->pvContents) {
-         /* restore old contents on failure */
-         oNNode->pvContents = pvOldContents;
+   else {
+      pvNew = malloc(ulNewLength);
+      if(!pvNew) {
+         /* restore old contents on failure 
+         oNNode->pvContents = pvOldContents; */
          return NULL;
       }
-      memcpy(oNNode->pvContents, pvNewContents, ulNewLength);
-   }
-   else {
-      oNNode->pvContents = NULL;
+      memcpy(pvNew, pvNewContents, ulNewLength);
+      oNNode->pvContents = pvNew;
    }
    oNNode->ulLength = ulNewLength;
    assert(CheckerFT_Node_isValid(oNNode));
