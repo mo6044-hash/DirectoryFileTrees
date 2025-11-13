@@ -386,9 +386,9 @@ void *Node_replaceFileContents(Node_T oNNode, const char *pvNewContents,
    pvOldContents = oNNode->pvContents;
 
    /* replace with new contents */
-   if(ulNewLength > 0 && pvNewContents != NULL) {
+   if(ulNewLength > 0) {
       oNNode->pvContents = malloc(ulNewLength);
-      if(oNNode->pvContents == NULL) {
+      if(!oNNode->pvContents) {
          /* restore old contents on failure */
          oNNode->pvContents = pvOldContents;
          return NULL;
