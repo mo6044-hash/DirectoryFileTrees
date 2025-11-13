@@ -539,13 +539,29 @@ static size_t FT_preOrderTraversal(Node_T n, DynArray_T d, size_t i) {
    if(n != NULL) {
       (void) DynArray_set(d, i, n);
       i++;
+
+      /* for files */ 
       for(c = 0; c < Node_getNumChildren(n); c++) {
          int iStatus;
          Node_T oNChild = NULL;
          iStatus = Node_getChild(n,c, &oNChild);
          assert(iStatus == SUCCESS);
-         i = FT_preOrderTraversal(oNChild, d, i);
+         if(Node_isFile(oNChild)) {
+           i = FT_preOrderTraversal(oNChild, d, i);
+          }
       }
+
+      /* for directories */
+      for(c = 0; c < Node_getNumChildren(n); c++) {
+         int iStatus;
+         Node_T oNChild = NULL;
+         iStatus = Node_getChild(n,c, &oNChild);
+         assert(iStatus == SUCCESS);
+         if(!Node_isFile(oNChild)) {
+           i = FT_preOrderTraversal(oNChild, d, i);
+          }
+       }
+     
    }
    return i;
 }
@@ -586,6 +602,10 @@ char *FT_toString(void) {
       return NULL;
 
    nodes = DynArray_new(ulCount);
+   if(nodes == NULL) {
+     return NULL;
+   }
+  
    (void) FT_preOrderTraversal(oNRoot, nodes, 0);
 
    DynArray_map(nodes, (void (*)(void *, void*)) FT_strlenAccumulate,
