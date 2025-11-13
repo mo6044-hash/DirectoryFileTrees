@@ -393,7 +393,10 @@ void *Node_replaceFileContents(Node_T oNNode, void *pvNewContents,
 
    if(ulNewLength == 0) {
       oNNode->pvContents = NULL;
-      free(pvOldContents);
+      if (pvOldContents !=NULL) {
+         free(pvOldContents);
+      }
+      return pvOldContents;
    }
 
    /* replace with new contents */
