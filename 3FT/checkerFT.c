@@ -72,7 +72,7 @@ static boolean checkerFT_Child_isValid(Node_T oNParent, Node_T oNChild,
         /*prevIsFile = Node_isFile(oNPrevChild);
         currIsFile = Node_isFile(oNChild); 
 
-        /* adding check for when directory comes before file 
+        adding check for when directory comes before file  
         if(!prevIsFile && currIsFile) {
           fprintf(stderr, "Children names out of order; the directory is before file: (%s) (%s)\n", 
                   Path_getPathname(Node_getPath(oNPrevChild)), Path_getPathname(Node_getPath(oNChild)));
