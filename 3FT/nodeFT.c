@@ -56,8 +56,8 @@ static int Node_compareString(const Node_T oNFirst,
    assert(oNFirst != NULL);
    assert(pcSecond != NULL);
 
-   /* return Path_compareString(oNFirst->oPPath, pcSecond);*/
-   return strcmp(Path_getPathName(oNFirst->oPPath), pcSecond);
+   return Path_compareString(oNFirst->oPPath, pcSecond);
+   /* return strcmp(Path_getPathName(oNFirst->oPPath), pcSecond); */
 }
 
 
@@ -333,9 +333,10 @@ int Node_compare(Node_T oNFirst, Node_T oNSecond) {
    assert(oNFirst != NULL);
    assert(oNSecond != NULL);
 
-   /* return Path_comparePath(oNFirst->oPPath, oNSecond->oPPath); */
+   /* return Path_comparePath(oNFirst->oPPath, oNSecond->oPPath); 
    return strcmp(Path_getNamePath(Node_getPath(oPPath)), 
-                 Path_getNamePath(Node_getPath(oPPath)));
+                 Path_getNamePath(Node_getPath(oPPath))); */
+    return Path_compareString(oNFirst->oPPath, oNSecond->oPPath);
 }
 
 char *Node_toString(Node_T oNNode) {
