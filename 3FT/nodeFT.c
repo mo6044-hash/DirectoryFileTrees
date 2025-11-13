@@ -377,7 +377,7 @@ size_t Node_getFileLength(Node_T oNNode) {
    }
 }
 
-void *Node_replaceFileContents(Node_T oNNode, const char *pvNewContents, 
+void *Node_replaceFileContents(Node_T oNNode, void *pvNewContents, 
                               size_t ulNewLength) {
    void *pvOldContents;
    void *pvNew;
