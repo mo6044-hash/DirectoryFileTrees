@@ -334,8 +334,8 @@ int Node_compare(Node_T oNFirst, Node_T oNSecond) {
    assert(oNSecond != NULL);
 
    /* return Path_comparePath(oNFirst->oPPath, oNSecond->oPPath); */
-   return strcmp(Path_getPathname(Node_getPath(oPPath)), 
-                 Path_getPathname(Node_getPath(oPPath))); 
+   return strcmp(Path_getPathname(Node_getPath(oNFirst)), 
+                 Path_getPathname(Node_getPath(oNSecond))); 
    
 }
 
