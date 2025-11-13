@@ -419,6 +419,10 @@ int FT_rmDir(const char *pcPath) {
 
    if(iStatus != SUCCESS)
        return iStatus;
+     
+   if(Node_isFile(oNFound)){
+      return NOT_A_DIRECTORY;
+   }
 
    ulCount -= Node_free(oNFound);
    if(ulCount == 0)
