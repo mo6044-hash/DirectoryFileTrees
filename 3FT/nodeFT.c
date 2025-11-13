@@ -56,7 +56,7 @@ static int Node_compareString(const Node_T oNFirst,
    assert(oNFirst != NULL);
    assert(pcSecond != NULL);
 
-   return strcmp(Path_getPathname(oNFirst->oPPath), pcSecond);
+   return Path_compareString(oNFirst->oPPath, pcSecond);
 }
 
 
