@@ -110,7 +110,7 @@ size_t Node_getFileLength(Node_T oNNode);
   of size ulNewLength. Returns a pointer to the old contents if successful.
   otherwise returns NULL if direcotry or if there's an allocation error.
 */
-void *Node_replaceFileContents(Node_T oNNode, const char *pvNewContents,
+void *Node_replaceFileContents(Node_T oNNode, void *pvNewContents,
                              size_t ulNewLength);
 
 #endif /* NODEFT_INCLUDED */
