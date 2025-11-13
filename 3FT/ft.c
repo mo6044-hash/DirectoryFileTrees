@@ -538,12 +538,11 @@ static size_t FT_preOrderTraversal(Node_T n, DynArray_T d, size_t i) {
 
    if(n != NULL) {
       /* (void) DynArray_set(d, i, n); */
-      dynArray_addAt(d,i,n);
+      DynArray_addAt(d,i,n);
       i++;
 
       /* for files */ 
       for(c = 0; c < Node_getNumChildren(n); c++) {
-         int iStatus;
          Node_T oNChild = NULL;
          /* iStatus = Node_getChild(n,c, &oNChild); */
          (void) Node_getChild(n,c, &oNChild);
@@ -555,7 +554,6 @@ static size_t FT_preOrderTraversal(Node_T n, DynArray_T d, size_t i) {
 
       /* for directories */
       for(c = 0; c < Node_getNumChildren(n); c++) {
-         int iStatus;
          Node_T oNChild = NULL;
          /* iStatus = Node_getChild(n,c, &oNChild); */
          (void) Node_getChild(n,c, &oNChild);
