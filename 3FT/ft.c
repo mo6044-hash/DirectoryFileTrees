@@ -178,6 +178,7 @@ int FT_insertDir(const char *pcPath) {
    int iStatus;
    Path_T oPPath = NULL;
    Node_T oNCurr = NULL;
+   Node_T oNFirstNew = NULL; 
    size_t ulDepth, ulIndex;
    size_t ulNewNodes = 0;
 
@@ -249,15 +250,18 @@ int FT_insertDir(const char *pcPath) {
          return iStatus;
       }
 
+      if(oNFirstNew == NULL) {
+        oNFirstNew = oNNewNode;
+      }
+
       /* set up for next level */
-      /* Path_free(oPPrefix); */
       oNCurr = oNNewNode;
       ulNewNodes++;
       ulIndex++;
    }
    Path_free(oPPath);
    if (oNRoot == NULL) {
-     oNRoot = oNCurr; 
+     oNRoot = oNFirstNew; 
    }
    ulCount += ulNewNodes;
 
@@ -269,6 +273,7 @@ int FT_insertFile(const char *pcPath, void *pvContents, size_t ulLength) {
    int iStatus;
    Path_T oPPath = NULL;
    Node_T oNCurr = NULL;
+   Node_T oNFirstNew = NULL;
    size_t ulDepth, ulIndex;
    size_t ulNewNodes = 0;
 
@@ -333,8 +338,8 @@ int FT_insertFile(const char *pcPath, void *pvContents, size_t ulLength) {
       iStatus = Path_prefix(oPPath, ulIndex, &oPPrefix);
       if(iStatus != SUCCESS) {
          Path_free(oPPath);
-         /* if(oNFirstNew != NULL)
-            (void) Node_free(oNFirstNew); */
+         if(oNFirstNew != NULL)
+            (void) Node_free(oNFirstNew); 
          assert(CheckerFT_isValid(bIsInitialized, oNRoot, ulCount)); 
          return iStatus;
       }
@@ -351,8 +356,8 @@ int FT_insertFile(const char *pcPath, void *pvContents, size_t ulLength) {
       Path_free(oPPrefix);
       if(iStatus != SUCCESS) {
          Path_free(oPPath);
-         /* if(oNFirstNew != NULL)
-            (void) Node_free(oNFirstNew); */
+         if(oNFirstNew != NULL)
+            (void) Node_free(oNFirstNew); 
          assert(CheckerFT_isValid(bIsInitialized, oNRoot, ulCount)); 
          return iStatus;
       }
@@ -360,15 +365,15 @@ int FT_insertFile(const char *pcPath, void *pvContents, size_t ulLength) {
       /* set up for next level */
       oNCurr = oNNewNode;
       ulNewNodes++;
-      /* if(oNFirstNew == NULL)
-         oNFirstNew = oNCurr; */
+      if(oNFirstNew == NULL)
+         oNFirstNew = oNCurr; 
       ulIndex++;
    }
 
    Path_free(oPPath);
    /* update DT state variables to reflect insertion */
-   /* if(oNRoot == NULL)
-      oNRoot = oNFirstNew; */
+   if(oNRoot == NULL)
+      oNRoot = oNFirstNew; 
    ulCount += ulNewNodes;
 
   assert(CheckerFT_isValid(bIsInitialized, oNRoot, ulCount)); 
