@@ -19,8 +19,8 @@ static boolean checkerFT_Child_isValid(Node_T oNParent, Node_T oNChild,
     Node_T oNOtherChild;
     Node_T oNPrevChild;
     size_t j;
-    boolean prevIsFile;
-    boolean currIsFile;
+    /* boolean prevIsFile;
+    boolean currIsFile; */
     
     oPNPath = Node_getPath(oNChild);
     oPPPath = Node_getPath(oNParent);
