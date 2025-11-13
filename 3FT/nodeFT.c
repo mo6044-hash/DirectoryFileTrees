@@ -102,6 +102,7 @@ int Node_new(Path_T oPPath, Node_T oNParent, boolean bIsFile, void *pvContents,
 
    /*setting the file info; contents, length*/
    psNew->bIsFile = bIsFile;
+   
    if(bIsFile) {
       if(ulLength > 0 && pvContents != NULL) {
          psNew->pvContents = malloc(ulLength);
@@ -145,6 +146,9 @@ int Node_new(Path_T oPPath, Node_T oNParent, boolean bIsFile, void *pvContents,
                                                 oPParentPath);
       /* parent must be an ancestor of child */
       if(ulSharedDepth < ulParentDepth) {
+         if(psNew->oDChildren != NULL) {
+            DynArray_free(psNew->oDChildren);
+         }
          Path_free(psNew->oPPath);
          free(psNew);
          *poNResult = NULL;
@@ -153,6 +157,9 @@ int Node_new(Path_T oPPath, Node_T oNParent, boolean bIsFile, void *pvContents,
 
       /* parent must be exactly one level up from child */
       if(Path_getDepth(psNew->oPPath) != ulParentDepth + 1) {
+         if(psNew->oDChildren != NULL) {
+            DynArray_free(psNew->oDChildren);
+         }
          Path_free(psNew->oPPath);
          free(psNew);
          *poNResult = NULL;
@@ -161,6 +168,9 @@ int Node_new(Path_T oPPath, Node_T oNParent, boolean bIsFile, void *pvContents,
 
       /* parent should not be file */
       if (oNParent->bIsFile) {
+         if(psNew->oDChildren != NULL) {
+            DynArray_free(psNew->oDChildren);
+         }
          Path_free(psNew->oPPath);
          free(psNew);
          *poNResult = NULL;
@@ -169,6 +179,9 @@ int Node_new(Path_T oPPath, Node_T oNParent, boolean bIsFile, void *pvContents,
 
       /* parent must not already have child with this path */
       if(Node_hasChild(oNParent, oPPath, &ulIndex)) {
+         if(psNew->oDChildren != NULL) {
+            DynArray_free(psNew->oDChildren);
+         }
          Path_free(psNew->oPPath);
          free(psNew);
          *poNResult = NULL;
@@ -180,6 +193,9 @@ int Node_new(Path_T oPPath, Node_T oNParent, boolean bIsFile, void *pvContents,
       psNew->oNParent = oNParent;   
       iStatus = Node_addChild(oNParent, psNew, ulIndex);
       if(iStatus != SUCCESS) {
+         if(psNew->oDChildren != NULL) {
+            DynArray_free(psNew->oDChildren);
+         }
          Path_free(psNew->oPPath);
          free(psNew);
          *poNResult = NULL;
@@ -191,6 +207,9 @@ int Node_new(Path_T oPPath, Node_T oNParent, boolean bIsFile, void *pvContents,
       /* new node must be root */
       /* can only create one "level" at a time */
       if(Path_getDepth(psNew->oPPath) != 1) {
+         if(psNew->oDChildren != NULL) {
+            DynArray_free(psNew->oDChildren);
+         }
          Path_free(psNew->oPPath);
          free(psNew);
          *poNResult = NULL;
@@ -261,6 +280,10 @@ boolean Node_hasChild(Node_T oNParent, Path_T oPPath,
    assert(oNParent != NULL);
    assert(oPPath != NULL);
    assert(pulChildID != NULL);
+
+   if(oNParent->bIsFile) {
+      return FALSE;
+   }
 
    /* *pulChildID is the index into oNParent->oDChildren */
    return DynArray_bsearch(oNParent->oDChildren,
