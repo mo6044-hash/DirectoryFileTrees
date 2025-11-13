@@ -537,15 +537,17 @@ static size_t FT_preOrderTraversal(Node_T n, DynArray_T d, size_t i) {
    assert(d != NULL);
 
    if(n != NULL) {
-      (void) DynArray_set(d, i, n);
+      /* (void) DynArray_set(d, i, n); */
+      dynArray_addAt(d,i,n);
       i++;
 
       /* for files */ 
       for(c = 0; c < Node_getNumChildren(n); c++) {
          int iStatus;
          Node_T oNChild = NULL;
-         iStatus = Node_getChild(n,c, &oNChild);
-         assert(iStatus == SUCCESS);
+         /* iStatus = Node_getChild(n,c, &oNChild); */
+         (void) Node_getChild(n,c, &oNChild);
+         /* assert(iStatus == SUCCESS); */
          if(Node_isFile(oNChild)) {
            i = FT_preOrderTraversal(oNChild, d, i);
           }
@@ -555,12 +557,13 @@ static size_t FT_preOrderTraversal(Node_T n, DynArray_T d, size_t i) {
       for(c = 0; c < Node_getNumChildren(n); c++) {
          int iStatus;
          Node_T oNChild = NULL;
-         iStatus = Node_getChild(n,c, &oNChild);
-         assert(iStatus == SUCCESS);
+         /* iStatus = Node_getChild(n,c, &oNChild); */
+         (void) Node_getChild(n,c, &oNChild);
+         /* assert(iStatus == SUCCESS); */
          if(!Node_isFile(oNChild)) {
            i = FT_preOrderTraversal(oNChild, d, i);
           }
-       }
+      }
      
    }
    return i;
