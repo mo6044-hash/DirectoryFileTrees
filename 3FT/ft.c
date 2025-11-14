@@ -336,7 +336,7 @@ int FT_insertFile(const char *pcPath, void *pvContents, size_t ulLength) {
       Node_T oNNewNode = NULL;
       boolean bIsFinal = FALSE;
       if (ulIndex == ulDepth) {
-        boolean bIsFinal = TRUE;
+        bIsFinal = TRUE;
       }
 
       /* generate a Path_T for this level */
