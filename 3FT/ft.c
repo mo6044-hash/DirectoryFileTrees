@@ -83,11 +83,6 @@ static int FT_traversePath(Path_T oPPath, Node_T *poNFurthest) {
    ulDepth = Path_getDepth(oPPath);
   
    for(i = 2; i <= ulDepth; i++) {
-     /* if a file it has no children 
-      if(Node_isFile(oNCurr)) {
-        *poNFurthest = oNCurr;
-        return NOT_A_DIRECTORY;
-      } */ 
       iStatus = Path_prefix(oPPath, i, &oPPrefix);
       if(iStatus != SUCCESS) {
          *poNFurthest = NULL;
@@ -339,7 +334,10 @@ int FT_insertFile(const char *pcPath, void *pvContents, size_t ulLength) {
    while(ulIndex <= ulDepth) {
       Path_T oPPrefix = NULL;
       Node_T oNNewNode = NULL;
-      boolean bIsFinal = (ulIndex == ulDepth);
+      boolean bIsFinal = FALSE;
+      if (ulIndex == ulDepth) {
+        boolean bIsFinal = TRUE;
+      }
 
       /* generate a Path_T for this level */
       iStatus = Path_prefix(oPPath, ulIndex, &oPPrefix);
