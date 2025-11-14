@@ -16,7 +16,9 @@ typedef struct node *Node_T;
 
 /*
   Creates a new node in the File Tree, with path oPPath,parent oNParent. 
-  and the node type. 
+  and the node type;
+  * for directory; bIsFile = False, pvContents = NULL, ulLength = 0
+  * for files; bIsFile = True, pvContents and ulLength depend on the file node
   Returns an int SUCCESS status and sets *poNResult
   to be the new node if successful. Otherwise, sets *poNResult to NULL
   and returns status:
