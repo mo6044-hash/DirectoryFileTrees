@@ -11,7 +11,11 @@
 #include "path.h"
 #include "nodeFT.h"
 
-/* helper function checking the parent-child relation invariants */
+/* helper function checking the parent(oNParent)-child(oNChild) relation invariants, index-child's
+position in the parent's child arr, totChildren, number of children the parent reports. 
+Returns:
+     TRUE  – if the parent–child relationship satisfies all invariants
+     FALSE – if any structural, ordering, or pointer invariant is violated */
 static boolean checkerFT_Child_isValid(Node_T oNParent, Node_T oNChild,
                                        size_t index, size_t totChildren) {
     Path_T oPPPath;
@@ -81,7 +85,15 @@ static boolean checkerFT_Child_isValid(Node_T oNParent, Node_T oNChild,
     return TRUE;
 }
 
-/* see checkerFT.h for specification */
+/* Checks whether oNNode satisfies all File Tree structural invariants.
+   Returns TRUE if the node is well-formed:
+     – non-NULL node and path
+     – parent/child path prefix relationships correct
+     – parent pointer consistent
+     – no duplicate sibling names
+     – child array indices valid and match Node_getNumChildren()
+   Returns FALSE if any invariant is violated.
+*/
 boolean CheckerFT_Node_isValid(Node_T oNNode) {
    Node_T oNParent;
    Node_T oNChild;
@@ -197,10 +209,19 @@ static boolean CheckerFT_treeCheck(Node_T oNNode) {
    return TRUE;
 }
 
-/* keep track of nodes in DT */
-static void CountNodes(Node_T oNNode, size_t *pCount) {
+/* Recursively counts all nodes in the subtree rooted at oNNode.
+   Arguments:
+     oNNode – current node being visited
+     pCount – pointer to the running total of nodes
+
+   On completion:
+     *pCount is incremented for oNNode and for every descendant.
+*/
+static void CheckerFT_CountNodes(Node_T oNNode, size_t *pCount) {
   size_t i;
   Node_T oNChild = NULL;
+
+  assert(pCount != NULL); 
 
   if(oNNode == NULL) {
     return;
@@ -209,7 +230,7 @@ static void CountNodes(Node_T oNNode, size_t *pCount) {
 
   for(i = 0; i < Node_getNumChildren(oNNode); i++) {
     if (Node_getChild(oNNode, i, &oNChild) == SUCCESS && oNChild != NULL) {
-      CountNodes(oNChild, pCount);
+      CheckerFT_CountNodes(oNChild, pCount);
     }
   }
 }
@@ -253,7 +274,7 @@ boolean CheckerFT_isValid(boolean bIsInitialized, Node_T oNRoot,
     }
 
     /* verifying the no of nodes */
-    CountNodes(oNRoot, &actualCount);
+    CheckerFT_CountNodes(oNRoot, &actualCount);
     if(actualCount != ulCount) {
         fprintf(stderr, "ulCount not equal to actual number of nodes\n");
         return FALSE;
