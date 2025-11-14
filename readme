@@ -3,7 +3,7 @@ Assignment 4 readme File
 ------------------------------------------------------------------------
 Student 1: What is your name?
 
-
+Helenia Mungu-Arere
 
 ------------------------------------------------------------------------
 Student 2: What is your name?
@@ -18,7 +18,10 @@ in the file ~cos217/AuthorizedSourcesList ) to this section of the
 readme file, and edit it as appropriate.
 
 
-
+COS 217 lecture materials.
+COS 217 precept materials.
+COS 217 website.
+COS 217 textbooks.
 ------------------------------------------------------------------------
 Student 2: What authorized sources of information did you use to
 complete the assignment? COPY THE LIST of authorized sources of
@@ -40,7 +43,7 @@ nature of the interaction, may additionally require the interaction
 being reported to the Committee on Discipline. Write "None" if you used
 no unauthorized sources of information.
 
-
+None
 
 ------------------------------------------------------------------------
 Student 2: What unauthorized sources of information did you use to
@@ -64,7 +67,7 @@ guide, enter your name in the space below the following affirmation:
 This paper represents my own work in accordance with University
 regulations.
 
-
+Helenia Mungu-Arere
 
 ------------------------------------------------------------------------
 Student 2: In fulfillment of the requirement from section 2.4.3 of the
@@ -88,7 +91,7 @@ used AI in completing this assignment:
 Student 1: What is your assessment of the assignment? Was it helpful?
 Was it fun?
 
-
+It was really helpful in learning how to read code I didn't write.
 
 ------------------------------------------------------------------------
 Student 2: What is your assessment of the assignment? Was it helpful?
@@ -110,7 +113,6 @@ express your disagreement after each warning. If there are no
 warnings, then write "None."
 
 
-
 ------------------------------------------------------------------------
 What warnings does critTer generate on checkerDT.c, and what are your
 disagreements with them? Copy the critTer warnings here, and express
@@ -125,16 +127,40 @@ your disagreements with them? Copy the splint warnings here, and
 express your disagreement after each warning. If there are no
 warnings, then write "None."
 
+None 
 
-
+(warnings from repurposing the DT code)
 ------------------------------------------------------------------------
 What warnings does critTer generate on your Part 3 code, and what are
 your disagreements with them? Copy the critTer warnings here, and
 express your disagreement after each warning. If there are no
 warnings, then write "None."
 
+ft.c: line 334: low priority: 
+   A loop should consist of fewer than 35 lines;
+   this loop consists of 44 lines; consider refactoring
 
+   ft.c: line 668: low priority: 
+   A file should contain no more than 15 functions;
+   this file contains 17 functions
 
+   ft.c: line 269: medium priority:
+   Do you want to validate 'pvContents' through an assert?
+
+   ft.c: line 520: medium priority:
+   Do you want to validate 'pvNewContents' through an assert?
+
+   ft.c: line 667: low priority: 
+   A source code file should contain fewer than 500 lines;
+   this file contains 668 lines
+
+* For these warnings below; content of a file may be NULL.
+   ft.c: line 274: medium priority:
+   Do you want to validate 'pvContents' through an assert?
+
+   ft.c: line 522: medium priority:
+   Do you want to validate 'pvNewContents' through an assert?
+* the rest of the warnings are for code length and number of functions
 ------------------------------------------------------------------------
 For each of the five faulty BDT implementations required by Step
 1.5, identify the function where there is a bug. You do not have to
@@ -145,13 +171,14 @@ the error manifests itself or is "noticed" by the client.
 
       Executable         Function with the underlying error
 ===============================================================
-         ./bdtBad1        
+         ./bdtBad1        int BDT_insert(const char *pcPath)
 ---------------------------------------------------------------
          ./bdtBad2        
 ---------------------------------------------------------------
-         ./bdtBad3        
+         ./bdtBad3        static int BDT_addChild(struct node *psParent, 
+                                                 struct node *psChild)
 ---------------------------------------------------------------
-         ./bdtBad4        
+         ./bdtBad4        int BDT_toString()
 ---------------------------------------------------------------
          ./bdtBad5        
 ===============================================================
@@ -160,6 +187,11 @@ the error manifests itself or is "noticed" by the client.
 What are your critiques of the given DT implementations, as
 specified in Step 2.5?
 
+* rather than using bIsInitialized, oNRoot and ulCount as static global variables,
+we could have them inside a struct DT and use an opaque pointer to allow for creation
+of several independent directory trees
 
-
+* We could split the functionality of dt.c into separate files eg one handling the tree traversal
+and nodes and another handling the tree building and managing memory to avoid having all the 
+functions in one .c file
 ------------------------------------------------------------------------
