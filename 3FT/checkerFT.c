@@ -19,30 +19,30 @@ static boolean checkerFT_Child_isValid(Node_T oNParent, Node_T oNChild,
     Node_T oNOtherChild;
     Node_T oNPrevChild;
     size_t j;
-    /* boolean prevIsFile;
-    boolean currIsFile; */
     
+    assert(oNParent != NULL);
+
     oPNPath = Node_getPath(oNChild);
     oPPPath = Node_getPath(oNParent);
 
-    /* child shouldn't be null */
+    /* child shouldn't be NULL */
     if(oNChild == NULL) {
-        fprintf(stderr, "Child at given index is NULL: (%lu) (%s)\n",
-                (unsigned long) index, Path_getPathname(oPPPath));
+        fprintf(stderr, "Child shouldn't be NULL\n");
         return FALSE;
     }
 
-    /* adding check for if child's pointer matches the parent address */
+    /* the child's pointer should be the same as the parent */
     if(Node_getParent(oNChild) != oNParent) {
-      fprintf(stderr, "Child's parent pointer doesn't match parent\n");
+      fprintf(stderr, "Child's parent pointer doesn't match the parnet\n");
+      return FALSE;
     }
-    
     
     if(oPPPath == NULL || oPNPath == NULL) {
         fprintf(stderr, "parent or child path is NULL\n");
         return FALSE;
     }
 
+    /* parent must be the longest proper prefix of child's path */
     if(Path_getSharedPrefixDepth(oPNPath, oPPPath) !=
        Path_getDepth(oPNPath) - 1) {
         fprintf(stderr, "P-C nodes don't have P-C paths: (%s) (%s)\n",
@@ -50,7 +50,7 @@ static boolean checkerFT_Child_isValid(Node_T oNParent, Node_T oNChild,
         return FALSE;
     }
 
-    /* adding check for sibling uniqueness (duplicates)*/
+    /* adding check for duplicate children under the same parent */
     for(j = index + 1; j < totChildren; j++) {
         oNOtherChild = NULL;
         if (Node_getChild(oNParent, j, &oNOtherChild) == SUCCESS &&
@@ -64,21 +64,12 @@ static boolean checkerFT_Child_isValid(Node_T oNParent, Node_T oNChild,
         }
       
     }
+  
   /* adding check for order */
     if(index > 0) {
       oNPrevChild = NULL;
       if(Node_getChild(oNParent, index-1, &oNPrevChild) == SUCCESS &&
         oNPrevChild != NULL) {
-        /*prevIsFile = Node_isFile(oNPrevChild);
-        currIsFile = Node_isFile(oNChild); 
-
-        adding check for when directory comes before file  
-        if(!prevIsFile && currIsFile) {
-          fprintf(stderr, "Children names out of order; the directory is before file: (%s) (%s)\n", 
-                  Path_getPathname(Node_getPath(oNPrevChild)), Path_getPathname(Node_getPath(oNChild)));
-          return FALSE; 
-          
-        } */
         
         if(Path_comparePath(Node_getPath(oNPrevChild),Node_getPath(oNChild)) > 0) {
           fprintf(stderr, "children names out of order\n");
@@ -255,6 +246,12 @@ boolean CheckerFT_isValid(boolean bIsInitialized, Node_T oNRoot,
         return FALSE;
     }
 
+    /* root must be a directory */
+    if(Node_isFile(oNRoot)) {
+      fprintf(stderr,"Root node is a file\n");
+      return FALSE;
+    }
+
     /* verifying the no of nodes */
     CountNodes(oNRoot, &actualCount);
     if(actualCount != ulCount) {
@@ -262,10 +259,7 @@ boolean CheckerFT_isValid(boolean bIsInitialized, Node_T oNRoot,
         return FALSE;
     }
 
-    if(Node_isFile(oNRoot)) {
-      fprintf(stderr,"Root node is a file\n");
-      return FALSE;
-    }
+    
     
 
    /* Now checks invariants recursively at each node from the root. */
