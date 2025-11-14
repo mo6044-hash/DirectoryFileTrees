@@ -299,11 +299,6 @@ int FT_insertFile(const char *pcPath, void *pvContents, size_t ulLength) {
       return iStatus;
    }
 
-   /* if(oNCurr == NULL && oNRoot != NULL) {
-     Path_free(oPPath);
-     return CONFLICTING_PATH;
-   } */
-
    ulDepth = Path_getDepth(oPPath);
    if(oNCurr == NULL) /* new root! */
       ulIndex = 1;
