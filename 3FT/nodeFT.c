@@ -114,7 +114,7 @@ int Node_new(Path_T oPPath, Node_T oNParent, boolean bIsFile, void *pvContents,
 
       /* parent can't be a file */
       if(oNParent->bIsFile) {
-         path_free(psNew->oPPath);
+         Path_free(psNew->oPPath);
          free(psNew);
          *poNResult = NULL;
          return NOT_A_DIRECTORY;
